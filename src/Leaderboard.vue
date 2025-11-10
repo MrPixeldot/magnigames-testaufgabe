@@ -1,12 +1,16 @@
 <template>
-  <p>{{ player }}</p>
+  <div>
+    <p>{{ player }} - {{ score }}</p>
+    <button @click="score++">Increase score</button>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      player: 'Eric Biering'
+      player: 'Martin Siebert',
+      score: 0
     }
   }
 }
