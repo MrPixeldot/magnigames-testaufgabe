@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import Leaderboard from './Leaderboard.vue'
 
-createApp(App).mount('#app')
+createApp(Leaderboard).mount('#app')
