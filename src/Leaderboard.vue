@@ -1,19 +1,14 @@
 <template>
-    <button class="button" @click="toggleShow">
-        <span v-if="!show">Show stuff</span>
-        <span v-else>Hide stuff </span>
-    </button>
-    <div v-if="show">
-        <div class="box" @mouseover="handleEvent($event, 67)">mouseover (enter)</div>
-        <div class="box" @mouseleave="handleEvent">mouseleave</div>
-        <div class="box" @dblclick="handleEvent">doubleclick</div>
-        <div class="box" @mousemove="handleMouseMove">position {{ x }} || {{ y }}</div>
-        <div v-show="show">
-        <p class="text">{{ player }} || {{ score }}</p>
-        <button class="button" @click="score++">Increase score</button>
-        <button class="button" @click="score--">Decrease score</button>
-        </div>
-    </div>
+    <ul>
+        <li v-for="player in players" class="wappen">
+            <img :src="player.wappen" alt="player.name">
+            <span class="text">{{ player.name }} - {{ player.city}}<div v-show="show"> {{ player.score }}</div></span>
+        </li>
+    </ul>
+  <button @click="toggleShow">
+    <span v-if="show">Show score</span>
+    <span v-else>Hide score</span>
+  </button>  
 </template>
 
 <script>
@@ -21,55 +16,35 @@ export default {
   data() {
     return {
       players: [
-        {name: 'Martin Siebert', city: 'Braunschweig'},
-        {name: 'Jakob Simko', city: 'Salzburg'},
-        {name: 'Eric Biering', city: 'Broitzem'}
+        {name: 'Martin Siebert', city: 'Braunschweig', wappen: '/Wappen1.png'},
+        {name: 'Jakob Simko', city: 'Salzburg', wappen: '/Wappen2.png'},
+        {name: 'Eric Biering', city: 'Broitzem', wappen: '/Wappen3.png'},
+        {name: 'Finn-Rico Burghardt', city: "Weststadt", wappen: '/Wappen4.png'}
       ],
-      score: 0,
       show: false,
-      x: 0,
-      y: 0,
     }
 },
 methods: {
     toggleShow() {
         this.show = !this.show
     },
-    handleEvent(e, data) {
-        console.log(e, e.type)
-        if (data)
-        console.log(data)
-    },
-    handleMouseMove(e) {
-        this.x = e.offsetX
-        this.y = e.offsetY
     }
-    }
-}
+}    
 </script>
 
 <style>
-.box {
-  padding: 100px 0;
-  width: 400px;
-  text-align: center;
-  display: inline-block;
-  margin: 20px;
-  background: #2e2e2e;
-  border-radius: 8px;    
-  font-family: monospace;
-  color: azure;
-}
 .button {
- margin: 2px;
+ margin: 2;
  font-family: monospace;
 }
 .text {
     font-family: monospace;
     margin-left: 4px;
 }
-.list {
- margin: 2px;
- font-family: monospace bold;
-}
+.wappen {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px; 
+  list-style: none;
+} 
 </style>
