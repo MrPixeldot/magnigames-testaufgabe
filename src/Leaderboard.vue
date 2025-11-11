@@ -1,6 +1,6 @@
 <template>
     <br>
-    <button @click="toggleShow">
+    <button class="button" @click="toggleShow">
         <span v-if="!show">Show stuff</span>
         <span v-else>Hide stuff </span>
     </button>
@@ -10,9 +10,9 @@
         <div class="box" @dblclick="handleEvent">doubleclick</div>
         <div class="box" @mousemove="handleMouseMove">position {{ x }} || {{ y }}</div>
         <div v-show="show">
-        <p>{{ player }} || {{ score }}</p>
-        <button @click="score++">Increase score</button>
-        <button @click="score--">Decrease score</button>
+        <p class="text">{{ player }} || {{ score }}</p>
+        <button class="button" @click="score++">Increase score</button>
+        <button class="button" @click="score--">Decrease score</button>
         </div>
     </div>
     
@@ -54,6 +54,16 @@ methods: {
   text-align: center;
   display: inline-block;
   margin: 20px;
-  background: #c5c5c5;
-  border-radius: 8px;            
-}</style>
+  background: #2e2e2e;
+  border-radius: 8px;    
+  font-family: monospace;
+  color: azure;
+}
+.button {
+ margin: 2px;
+ font-family: monospace;
+}
+.text {
+    font-family: monospace;
+}
+</style>
