@@ -1,5 +1,4 @@
 <template>
-    <br>
     <button class="button" @click="toggleShow">
         <span v-if="!show">Show stuff</span>
         <span v-else>Hide stuff </span>
@@ -15,15 +14,17 @@
         <button class="button" @click="score--">Decrease score</button>
         </div>
     </div>
-    
-    
 </template>
 
 <script>
 export default {
   data() {
     return {
-      player: 'Martin Siebert',
+      players: [
+        {name: 'Martin Siebert', city: 'Braunschweig'},
+        {name: 'Jakob Simko', city: 'Salzburg'},
+        {name: 'Eric Biering', city: 'Broitzem'}
+      ],
       score: 0,
       show: false,
       x: 0,
@@ -65,5 +66,10 @@ methods: {
 }
 .text {
     font-family: monospace;
+    margin-left: 4px;
+}
+.list {
+ margin: 2px;
+ font-family: monospace bold;
 }
 </style>
