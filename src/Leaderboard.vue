@@ -1,15 +1,13 @@
 <template>
-    <ul style="padding-left: 0">
+  <br><br><br><br><br><br><br><br><br><br><br>
+    <ul style="padding: 0px;">
         <li v-for="player in players" class="wappen">
-            <img :src="player.wappen" alt="player.name">
-            <span class="text">{{ player.name }} - {{ player.city}}  <span v-show="show">- {{ player.score }}</span></span>
+            <img :src="player.wappen">
+            <span class="text">{{ player.name }} - {{ player.city}}</span> 
+            <span class="score">{{ player.score }}</span>
         </li>
     </ul>
-  <button @click="toggleShow" class="button">
-    <span v-if="show">Show score</span>
-    <span v-else>Hide score</span>
-  </button>
-  <button @click="regenerateScore" class="button">Regenerate score</button>  
+<button @click="regenerateScore" class="button">Regenerate score</button>  
 </template>
 
 <script>
@@ -41,17 +39,43 @@ methods: {
 </script>
 
 <style>
+body {
+  max-width: 500px;
+  margin: 20px auto;
+  transform: scale(1.3);
+}
+p, h3, ul {
+  padding: 0px;
+  margin: 0px;
+}
+li {
+  display: flex;
+  align-items: center;
+  margin: 5px auto;
+  background: #c9c9c9;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
 .button {
- margin: 2px;
- font-family: monospace;
+  margin-left: 0px;
+  margin-right: 4px;
+  padding: 6px 12px;
+  font-family: monospace;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .text {
+    text-align: left;
+    flex: 1;
     font-family: monospace;
     margin-left: 4px;
 }
-.wappen {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px; 
-} 
+.score {
+  width: 80px;
+  text-align: left;
+  font-family: monospace;
+}
 </style>
