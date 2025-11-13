@@ -1,8 +1,8 @@
 <template>
   <br><br><br><br><br><br><br><br><br><br><br>
     <ul style="padding: 0px;">
-        <li v-for="player in players" class="wappen">
-            <img :src="player.wappen">
+        <li v-for="player in players" :class="{fav: player.isFav}" @click="toggleFav(player)">
+            <img :src="player.wappen" style="width: 32px;">
             <span class="text">{{ player.name }} - {{ player.city}}</span> 
             <span class="score">{{ player.score }}</span>
         </li>
@@ -19,10 +19,10 @@ export default {
   data() {
     return {
       players: [
-        {name: 'Martin Siebert', city: 'Braunschweig', wappen: '/Wappen1.png', score: randomScore(1111)},
-        {name: 'Jakob Simko', city: 'Salzburg', wappen: '/Wappen2.png', score: randomScore(1111)},
-        {name: 'Eric Biering', city: 'Broitzem', wappen: '/Wappen3.png', score: randomScore(1111)},
-        {name: 'Finn-Rico Burghardt', city: "Weststadt", wappen: '/Wappen4.png', score: randomScore(1111)}
+        {name: 'Martin Siebert', city: 'Braunschweig', wappen: '/Wappen1.png', score: randomScore(1111), isFav: false},
+        {name: 'Jakob Simko', city: 'Salzburg', wappen: '/Wappen2.png', score: randomScore(1111), isFav: true},
+        {name: 'Eric Biering', city: 'Broitzem', wappen: '/Wappen3.png', score: randomScore(1111), isFav: false},
+        {name: 'Finn-Rico Burghardt', city: "Weststadt", wappen: '/Wappen4.png', score: randomScore(1111), isFav: false}
       ],
       show: false,
     }
@@ -33,7 +33,12 @@ methods: {
     },
     regenerateScore() {
     this.players.forEach(player => {player.score = randomScore(1111)});
-    }
+    console.log(this.regenerateScore)
+    },
+    toggleFav(player) {
+      player.isFav = !player.isFav
+      console.log(this.toggleFav)
+    },
 } 
 }  
 </script>
@@ -75,7 +80,11 @@ li {
 }
 .score {
   width: 80px;
-  text-align: left;
+  text-align: right;
   font-family: monospace;
+}
+li.fav {
+  background: rgb(255, 179, 125);
+  cursor: pointer;
 }
 </style>
