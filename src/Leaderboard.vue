@@ -7,7 +7,17 @@
             <span class="score">{{ player.score }}</span>
         </li>
     </ul>
-<button @click="regenerateScore" class="button">Regenerate score</button>  
+<button @click="regenerateScore" class="button">Regenerate score</button> 
+<button @click="toggleShow" class="button"><span v-if="show">Hide computed list</span><span v-else>Show computed list</span></button> 
+<br><br><br>
+<p class="text">Favorite players:</p>
+<ul style="padding: 0px;" v-show="show">
+        <li v-for="player in filteredPlayers" :class="{fav: player.isFav}" @click="toggleFav(player)">
+            <img :src="player.wappen" style="width: 32px;">
+            <span class="text">{{ player.name }} - {{ player.city}}</span> 
+            <span class="score">{{ player.score }}</span>
+        </li>
+    </ul>
 </template>
 
 <script>
@@ -39,6 +49,11 @@ methods: {
       player.isFav = !player.isFav
       console.log(this.toggleFav)
     },
+},
+computed: {
+    filteredPlayers() {
+      return this.players.filter((player) => player.isFav)
+    }
 } 
 }  
 </script>
