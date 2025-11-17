@@ -1,8 +1,19 @@
 <template>
   <br><br><br><br><br><br><br><br><br><br><br>
 <div>
+  <select v-model="sortBy" @change="toggleDirection" class="select">
+    <option value="name">Name</option>
+    <option value="city">City</option>
+    <option value="score">Score</option>
+  </select>
+  <button class="button" @click="regenerateScore">Regenerate score</button>
+  <button class="button" @click="toggleDirection">
+    {{ sortDirection === 'Ascending' ? 'Descending' : 'Ascending' }}
+  </button>
+</div>
+<div>
   <ul>
-    <li v-for="player in players">
+    <li v-for="player in sortedList">
       <img :src="player.wappen" style="width: 32px;">
       <span class="text">{{ player.name }}</span>
       <span class="city">{{ player.city}}</span> 
@@ -13,8 +24,6 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-
 function generateScore(max) {
   return Math.floor(Math.random() * max);
 }
@@ -26,6 +35,9 @@ function generateWappen(max) {
 export default {
   data() {
     return{
+      sortBy: 'name',
+      sortDirection: 'Ascending',
+      
       players: [
       {name: "Lothar Eisenwald", city: "Frankfurt", score: generateScore(1111), wappen: generateWappen(5)},
       {name: "Alrik Falkenbruch", city: "Stuttgart", score: generateScore(1111), wappen: generateWappen(5)},
@@ -44,17 +56,27 @@ export default {
 methods: {
   regenerateScore(max) {
     this.players.forEach(player => {
-      player.score = generateScore(max);
+      player.score = generateScore(1111);
     })
   },
+  toggleDirection() {
+      this.sortDirection = this.sortDirection === "Ascending" ? "Descending" : "Ascending";
+    },
 },
 
 computed: {
   sortedList() {
-    return this.players.filter((player) => player.isFav)
+    return this.players.sort((a, b) => {
+      let result;
+      if (this.sortBy === "score") {
+        result = a.score - b.score;
+      } else {
+        result = a[this.sortBy].localeCompare(b[this.sortBy]);
+      }
+      return this.sortDirection === "Ascending" ? result : -result;
+    });
   }
 }
-
 } 
 </script>
 
@@ -64,7 +86,7 @@ body {
   margin: 20px auto;
   transform: scale(1.5);
 }
-p, h3, ul {
+ul {
   padding: 0px;
   margin: 0px;
 }
@@ -78,7 +100,7 @@ li {
 }
 .button {
   margin-left: 0px;
-  margin-right: 4px;
+  margin-right: 8px;
   padding: 6px 12px;
   font-family: monospace;
   background: #444;
@@ -87,33 +109,40 @@ li {
   border-radius: 4px;
   cursor: pointer;
 }
+.select {
+  margin-left: 0px;
+  margin-right: 8px;
+  padding: 5px 4px;
+  font-family: monospace;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .text {
-    text-align: left;
-    flex: 1;
-    font-family: monospace, bold;
-    margin-left: 4px;
-    white-space: nowrap;
-    font-weight: 700;
-    font-size: 13px;
-    color: #222;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  text-align: left;
+  flex: 1;
+  font-family: monospace, bold;
+  margin-left: 4px;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 13px;
+  color: #222;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .city {
-    text-align: left;
-    flex: 1;
-    font-family: monospace;
-    margin-left: 20px;
+  text-align: left;
+  flex: 1;
+  font-family: monospace;
+  margin-left: 20px;
 }
 .score {
   width: 80px;
   text-align: right;
   font-family: monospace, bold;
   font-weight: 700;
-    font-size: 13px;
-}
-li.fav {
-  background: rgb(255, 179, 125);
-  cursor: pointer;
+  font-size: 13px;
 }
 </style>
