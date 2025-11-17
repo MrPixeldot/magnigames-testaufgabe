@@ -1,68 +1,68 @@
 <template>
   <br><br><br><br><br><br><br><br><br><br><br>
-    <ul style="padding: 0px;">
-        <li v-for="player in players" :class="{fav: player.isFav}" @click="toggleFav(player)">
-            <img :src="player.wappen" style="width: 32px;">
-            <span class="text">{{ player.name }} - {{ player.city}}</span> 
-            <span class="score">{{ player.score }}</span>
-        </li>
-    </ul>
-<button @click="regenerateScore" class="button">Regenerate score</button> 
-<button @click="toggleShow" class="button"><span v-if="show">Hide computed list</span><span v-else>Show computed list</span></button> 
-<br><br><br>
-<p class="text">Favorite players:</p>
-<ul style="padding: 0px;" v-show="show">
-        <li v-for="player in filteredPlayers" :class="{fav: player.isFav}" @click="toggleFav(player)">
-            <img :src="player.wappen" style="width: 32px;">
-            <span class="text">{{ player.name }} - {{ player.city}}</span> 
-            <span class="score">{{ player.score }}</span>
-        </li>
-    </ul>
+<div>
+  <ul>
+    <li v-for="player in players">
+      <img :src="player.wappen" style="width: 32px;">
+      <span class="text">{{ player.name }}</span>
+      <span class="city">{{ player.city}}</span> 
+      <span class="score">{{ player.score }}</span>
+    </li>
+  </ul>
+</div>  
 </template>
 
 <script>
-function randomScore(max) {
-      return Math.floor(Math.random() * max);
+import { computed } from 'vue';
+
+function generateScore(max) {
+  return Math.floor(Math.random() * max);
+}
+function generateWappen(max) {
+  const wappen = Math.floor(Math.random() * max) + 1;
+  return `./Wappen${wappen}.png`
 }
 
 export default {
   data() {
-    return {
+    return{
       players: [
-        {name: 'Martin Siebert', city: 'Braunschweig', wappen: '/Wappen1.png', score: randomScore(1111), isFav: false},
-        {name: 'Jakob Simko', city: 'Salzburg', wappen: '/Wappen2.png', score: randomScore(1111), isFav: true},
-        {name: 'Eric Biering', city: 'Broitzem', wappen: '/Wappen3.png', score: randomScore(1111), isFav: false},
-        {name: 'Finn-Rico Burghardt', city: "Weststadt", wappen: '/Wappen4.png', score: randomScore(1111), isFav: false}
-      ],
-      show: false,
-    }
+      {name: "Lothar Eisenwald", city: "Frankfurt", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Alrik Falkenbruch", city: "Stuttgart", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Gerwig Bärenhardt", city: "München", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Isolde Finsterwald", city: "Hamburg", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Brunhild Steinrufer", city: "Köln", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Eldric Dornhammer", city: "Leipzig", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Hagen Blutmund", city: "Düsseldorf", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Maeve Silberhain", city: "Dortmund", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Thorben Nebelstein", city: "Dresden", score: generateScore(1111), wappen: generateWappen(5)},
+      {name: "Elara Waldheim", city: "Hannover", score: generateScore(1111), wappen: generateWappen(5)}
+    ]
+  }
 },
+
 methods: {
-    toggleShow() {
-        this.show = !this.show
-    },
-    regenerateScore() {
-    this.players.forEach(player => {player.score = randomScore(1111)});
-    console.log(this.regenerateScore)
-    },
-    toggleFav(player) {
-      player.isFav = !player.isFav
-      console.log(this.toggleFav)
-    },
+  regenerateScore(max) {
+    this.players.forEach(player => {
+      player.score = generateScore(max);
+    })
+  },
 },
+
 computed: {
-    filteredPlayers() {
-      return this.players.filter((player) => player.isFav)
-    }
+  sortedList() {
+    return this.players.filter((player) => player.isFav)
+  }
+}
+
 } 
-}  
 </script>
 
 <style>
 body {
   max-width: 500px;
   margin: 20px auto;
-  transform: scale(1.3);
+  transform: scale(1.5);
 }
 p, h3, ul {
   padding: 0px;
@@ -90,13 +90,27 @@ li {
 .text {
     text-align: left;
     flex: 1;
-    font-family: monospace;
+    font-family: monospace, bold;
     margin-left: 4px;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 13px;
+    color: #222;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.city {
+    text-align: left;
+    flex: 1;
+    font-family: monospace;
+    margin-left: 20px;
 }
 .score {
   width: 80px;
   text-align: right;
-  font-family: monospace;
+  font-family: monospace, bold;
+  font-weight: 700;
+    font-size: 13px;
 }
 li.fav {
   background: rgb(255, 179, 125);
