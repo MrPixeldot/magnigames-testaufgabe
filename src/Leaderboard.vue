@@ -6,14 +6,16 @@
     <option value="city">City</option>
     <option value="score">Score</option>
   </select>
-  <button class="button" @click="regenerateScore">Regenerate score</button>
-  <button class="button" @click="toggleDirection">
-    {{ sortDirection === 'Ascending' ? 'Descending' : 'Ascending' }}
+  <button class="button" @click="regenerateWappen(); regenerateScore()">Regenerate</button>
+  <button class="button" @click="toggleDirection()">
+    <span v-if="ascending">Descending</span>
+    <span v-else>Ascending</span>
   </button>
 </div>
 <div>
   <ul>
-    <li v-for="player in sortedList">
+    <li v-for="(player, index) in sortedList">
+      <span class="rank">{{ index + 1 }}</span>
       <img :src="player.wappen" style="width: 32px;">
       <span class="text">{{ player.name }}</span>
       <span class="city">{{ player.city}}</span> 
@@ -36,8 +38,7 @@ export default {
   data() {
     return{
       sortBy: 'name',
-      sortDirection: 'Ascending',
-      
+      ascending: true, 
       players: [
       {name: "Lothar Eisenwald", city: "Frankfurt", score: generateScore(1111), wappen: generateWappen(5)},
       {name: "Alrik Falkenbruch", city: "Stuttgart", score: generateScore(1111), wappen: generateWappen(5)},
@@ -57,26 +58,31 @@ methods: {
   regenerateScore(max) {
     this.players.forEach(player => {
       player.score = generateScore(1111);
-    })
+    });
+  },
+  regenerateWappen(max) {
+    this.players.forEach(player => {
+      player.wappen = generateWappen(5);
+    });
   },
   toggleDirection() {
-      this.sortDirection = this.sortDirection === "Ascending" ? "Descending" : "Ascending";
-    },
+    this.ascending = !this.ascending
+  }
 },
 
 computed: {
   sortedList() {
-    return this.players.sort((a, b) => {
-      let result;
-      if (this.sortBy === "score") {
-        result = a.score - b.score;
-      } else {
-        result = a[this.sortBy].localeCompare(b[this.sortBy]);
-      }
-      return this.sortDirection === "Ascending" ? result : -result;
-    });
+    let list;
+    if (this.sortBy === 'score') {
+      list = [...this.players].sort((a, b) => a.score - b.score);
+    } 
+    else {
+      list = [...this.players].sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
+    }
+    return this.ascending ? list : list.reverse();
   }
 }
+
 } 
 </script>
 
@@ -94,17 +100,26 @@ li {
   display: flex;
   align-items: center;
   margin: 5px auto;
-  background: #c9c9c9;
+  background: #774024;
   border-radius: 8px;
   padding: 10px 20px;
 }
+.rank {
+  width: 10px;
+  text-align: right;
+  margin-right: 10px;
+  font-weight: bold;
+  font-family: monospace;
+  color: #aa8085;
+}
+
 .button {
   margin-left: 0px;
   margin-right: 8px;
   padding: 6px 12px;
   font-family: monospace;
-  background: #444;
-  color: white;
+  background: #182029;
+  color: #b96f2c;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -114,8 +129,8 @@ li {
   margin-right: 8px;
   padding: 5px 4px;
   font-family: monospace;
-  background: #444;
-  color: white;
+  background: #182029;
+  color: #b96f2c;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -126,9 +141,9 @@ li {
   font-family: monospace, bold;
   margin-left: 4px;
   white-space: nowrap;
-  font-weight: 700;
+  font-weight: bold;
   font-size: 13px;
-  color: #222;
+  color: #e4c196;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -137,12 +152,14 @@ li {
   flex: 1;
   font-family: monospace;
   margin-left: 20px;
+  color: #caa982;
 }
 .score {
   width: 80px;
   text-align: right;
   font-family: monospace, bold;
-  font-weight: 700;
+  font-weight: bold;
   font-size: 13px;
+  color: #b1c447;
 }
 </style>
