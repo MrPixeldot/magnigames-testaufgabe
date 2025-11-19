@@ -1,27 +1,28 @@
 <template>
-  <br><br><br><br><br><br><br><br><br><br><br>
-<div>
-  <select v-model="sortBy" @change="toggleDirection" class="select">
-    <option value="name">Name</option>
-    <option value="city">City</option>
-    <option value="score">Score</option>
-  </select>
-  <button class="button" @click="regenerateWappen(); regenerateScore()">Regenerate</button>
-  <button class="button" @click="toggleDirection()">
-    <span v-if="ascending">Descending</span>
-    <span v-else>Ascending</span>
-  </button>
-</div>
-<div>
-  <ul>
-    <li v-for="(player, index) in sortedList">
-      <span class="rank">{{ index + 1 }}</span>
-      <img :src="player.wappen" style="width: 32px;">
-      <span class="text">{{ player.name }}</span>
-      <span class="city">{{ player.city}}</span> 
-      <span class="score">{{ player.score }}</span>
-    </li>
-  </ul>
+<div class="everything ">
+  <div class="controls">
+    <select v-model="sortBy" @change="toggleDirection" class="select">
+      <option value="name">Name</option>
+      <option value="city">City</option>
+      <option value="score">Score</option>
+    </select>
+    <button class="button" @click="regenerateWappen(); regenerateScore()">Regenerate</button>
+    <button class="button" @click="toggleDirection()">
+      <span v-if="ascending">Descending</span>
+      <span v-else>Ascending</span>
+    </button>
+  </div>
+  <div>
+    <ul>
+      <li v-for="(player, index) in sortedList">
+        <span class="rank">{{ index + 1 }}</span>
+        <img :src="player.wappen" style="width: 32px;">
+        <span class="text">{{ player.name }}</span>
+        <span class="city">{{ player.city}}</span> 
+        <span class="score">{{ player.score }}</span>
+      </li>
+    </ul>
+  </div>  
 </div>  
 </template>
 
@@ -106,73 +107,97 @@ computed: {
   --font_size: 15px;
   --font_weight: light;
 }
-
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  
+}
+div {
+  width: 100%;
   max-width: 500px;
-  margin: 20px auto;
-  transform: scale(1.5);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.everything {
+  transform: scale(1.6);
+  transform-origin: top;
+}
+.controls {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: start;
+  margin-bottom: 1px;
+  transform: translateX(-4px);
+}
+
+.button, .select {
+  padding: 6px 12px;
+  font-size: 16px;
+  height: 40px;
+  line-height: 1.2;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font);
+  background: var(--button);
+  color: var(--button_text);
+  border: none;
+  margin: 4px;
 }
 ul {
-  padding: 0px;
-  margin: 0px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 li {
   display: flex;
   align-items: center;
-  margin: 5px auto;
+  justify-content: space-between;
+  margin: 5px 0;
   background: var(--li);
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 10px 15px;
+  box-sizing: border-box;
 }
 .rank {
-  width: 10px;
+  width: 20px;
   text-align: right;
   margin-right: 10px;
   font-size: var(--font_size);
   font-family: var(--font);
   color: var(--score);
 }
-
-.button {
-  margin-left: 0px;
-  margin-right: 8px;
-  padding: 6px 12px;
-  font-family: var(--font);
-  background: var(--button);
-  color: var(--button_text);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.select {
-  margin-left: 0px;
-  margin-right: 8px;
-  padding: 5px 4px;
-  font-family: var(--font);
-  background: var(--button);
-  color: var(--button_text);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 .text {
-  text-align: left;
   flex: 2;
+  text-align: left;
   font-family: var(--font_bold);
   margin-left: 4px;
-  white-space: nowrap;
   font-size: 20px;
   color: var(--text);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .city {
-  text-align: left;
   flex: 1;
+  text-align: left;
   font-family: var(--font);
   margin-right: 10px;
   font-size: var(--font_size);
   color: var(--text_city);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .score {
   width: 80px;
