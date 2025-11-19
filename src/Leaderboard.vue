@@ -87,6 +87,26 @@ computed: {
 </script>
 
 <style>
+@font-face {
+  font-family: "Chomsky";
+  src: url("https://db.onlinewebfonts.com/t/00048069ded7ec58aa6b96ccaff5f759.woff2") format("woff2"),
+       url("https://db.onlinewebfonts.com/t/00048069ded7ec58aa6b96ccaff5f759.woff") format("woff"),
+       url("https://db.onlinewebfonts.com/t/00048069ded7ec58aa6b96ccaff5f759.ttf") format("truetype");
+}
+:root {
+  --background: #979366ff;
+  --text: #DBD7CEff;
+  --text_city: rgb(206, 202, 191);
+  --button: #DBD7CEff;
+  --button_text: #C53929ff;
+  --li: #3E1815ff;
+  --score: #C53929ff;
+  --font: Chomsky;
+  --font_bold: Chomsky;
+  --font_size: 15px;
+  --font_weight: light;
+}
+
 body {
   max-width: 500px;
   margin: 20px auto;
@@ -100,7 +120,7 @@ li {
   display: flex;
   align-items: center;
   margin: 5px auto;
-  background: #774024;
+  background: var(--li);
   border-radius: 8px;
   padding: 10px 20px;
 }
@@ -108,18 +128,18 @@ li {
   width: 10px;
   text-align: right;
   margin-right: 10px;
-  font-weight: bold;
-  font-family: monospace;
-  color: #aa8085;
+  font-size: var(--font_size);
+  font-family: var(--font);
+  color: var(--score);
 }
 
 .button {
   margin-left: 0px;
   margin-right: 8px;
   padding: 6px 12px;
-  font-family: monospace;
-  background: #182029;
-  color: #b96f2c;
+  font-family: var(--font);
+  background: var(--button);
+  color: var(--button_text);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -128,38 +148,38 @@ li {
   margin-left: 0px;
   margin-right: 8px;
   padding: 5px 4px;
-  font-family: monospace;
-  background: #182029;
-  color: #b96f2c;
+  font-family: var(--font);
+  background: var(--button);
+  color: var(--button_text);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 .text {
   text-align: left;
-  flex: 1;
-  font-family: monospace, bold;
+  flex: 2;
+  font-family: var(--font_bold);
   margin-left: 4px;
   white-space: nowrap;
-  font-weight: bold;
-  font-size: 13px;
-  color: #e4c196;
+  font-size: 20px;
+  color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .city {
   text-align: left;
   flex: 1;
-  font-family: monospace;
-  margin-left: 20px;
-  color: #caa982;
+  font-family: var(--font);
+  margin-right: 10px;
+  font-size: var(--font_size);
+  color: var(--text_city);
 }
 .score {
   width: 80px;
   text-align: right;
-  font-family: monospace, bold;
+  font-family: var(--font_bold);
   font-weight: bold;
   font-size: 13px;
-  color: #b1c447;
+  color: var(--score);
 }
 </style>
