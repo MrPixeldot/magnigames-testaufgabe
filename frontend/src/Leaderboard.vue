@@ -1,12 +1,12 @@
 <template>
 <div class="everything ">
   <div class="controls">
-    <select v-model="sortBy" @change="toggleDirection" class="select">
+    <select v-model="sortBy" class="select">
       <option value="name">Name</option>
       <option value="city">City</option>
       <option value="score">Score</option>
     </select>
-    <button class="button" @click="regenerateWappen(); regenerateScore()">Regenerate</button>
+    <button class="button_left" @click ="regenerateScore(); regenerateWappen()">Regenerate</button>
     <button class="button" @click="toggleDirection()">
       <span v-if="ascending">Descending</span>
       <span v-else>Ascending</span>
@@ -38,7 +38,7 @@ function generateWappen(max) {
 export default {
   data() {
     return{
-      sortBy: 'name',
+      sortBy: 'score',
       ascending: true, 
       players: [
       {name: "Lothar Eisenwald", city: "Frankfurt", score: generateScore(1111), wappen: generateWappen(5)},
@@ -78,7 +78,7 @@ computed: {
       list = [...this.players].sort((a, b) => a.score - b.score);
     } 
     else {
-      list = [...this.players].sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
+      list = [...this.players].sort((a, b) => b[this.sortBy].localeCompare(a[this.sortBy]));
     }
     return this.ascending ? list : list.reverse();
   }
@@ -87,17 +87,17 @@ computed: {
 } 
 </script>
 
+
 <style>
 @font-face {
   font-family: "Chomsky";
-  src: url("https://db.onlinewebfonts.com/t/00048069ded7ec58aa6b96ccaff5f759.woff2") format("woff2"),
-       url("https://db.onlinewebfonts.com/t/00048069ded7ec58aa6b96ccaff5f759.woff") format("woff"),
-       url("https://db.onlinewebfonts.com/t/00048069ded7ec58aa6b96ccaff5f759.ttf") format("truetype");
+  src: url("/public/Chomsky.woff2") format(woff2),
+       
 }
 :root {
   --background: #979366ff;
   --text: #DBD7CEff;
-  --text_city: rgb(206, 202, 191);
+  --text_city: #cecabf;
   --button: #DBD7CEff;
   --button_text: #C53929ff;
   --li: #3E1815ff;
@@ -120,11 +120,27 @@ body {
 }
 div {
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
+}
+ul {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0;
+  background: var(--li);
+  border-radius: 8px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  
 }
 .everything {
   transform: scale(1.6);
@@ -154,24 +170,25 @@ div {
   border: none;
   margin: 4px;
 }
-ul {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 5px 0;
-  background: var(--li);
-  border-radius: 8px;
-  padding: 10px 15px;
+.button_left {
+  transform: translateX(+600px); 
+  position: absolute;
+  padding: 6px 12px;
+  font-size: 16px;
+  height: 40px;
+  line-height: 1.2;
   box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font);
+  background: var(--button);
+  color: var(--button_text);
+  border: none;
+  margin: 4px;
 }
 .rank {
   width: 20px;
-  text-align: right;
+  text-align: center;
   margin-right: 10px;
   font-size: var(--font_size);
   font-family: var(--font);
@@ -196,11 +213,10 @@ li {
   font-size: var(--font_size);
   color: var(--text_city);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  transform: translateX(-50px);
 }
 .score {
-  width: 80px;
+  width: 50px;
   text-align: right;
   font-family: var(--font_bold);
   font-weight: bold;
