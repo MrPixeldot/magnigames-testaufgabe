@@ -6,10 +6,10 @@
       <option value="city">City</option>
       <option value="score">Score</option>
     </select>
-    <button class="button_left" @click ="regenerateScore(); regenerateWappen()">Regenerate</button>
+    <button class="button_left" @click ="regenerate()">Regenerate</button>
     <button class="button" @click="toggleDirection()">
-      <span v-if="ascending">Descending</span>
-      <span v-else>Ascending</span>
+      <span v-if="ascending">Ascending</span>
+      <span v-else>Descending</span>
     </button>
   </div>
   <div>
@@ -27,45 +27,29 @@
 </template>
 
 <script>
-function generateScore(max) {
-  return Math.floor(Math.random() * max);
-}
-function generateWappen(max) {
-  const wappen = Math.floor(Math.random() * max) + 1;
-  return `./Wappen${wappen}.png`
-}
-
 export default {
   data() {
     return{
       sortBy: 'score',
       ascending: true, 
-      players: [
-      {name: "Lothar Eisenwald", city: "Frankfurt", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Alrik Falkenbruch", city: "Stuttgart", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Gerwig Bärenhardt", city: "München", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Isolde Finsterwald", city: "Hamburg", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Brunhild Steinrufer", city: "Köln", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Eldric Dornhammer", city: "Leipzig", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Hagen Blutmund", city: "Düsseldorf", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Maeve Silberhain", city: "Dortmund", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Thorben Nebelstein", city: "Dresden", score: generateScore(1111), wappen: generateWappen(5)},
-      {name: "Elara Waldheim", city: "Hannover", score: generateScore(1111), wappen: generateWappen(5)}
-    ]
+      players: []
   }
 },
 
+mounted() {
+    fetch('http://127.0.0.1:8000/api/players')
+      .then(res => res.json())
+      .then(data => {
+        this.players = data;
+      })
+      .catch(err => console.error(err));
+},
+
 methods: {
-  regenerateScore(max) {
-    this.players.forEach(player => {
-      player.score = generateScore(1111);
-    });
-  },
-  regenerateWappen(max) {
-    this.players.forEach(player => {
-      player.wappen = generateWappen(5);
-    });
-  },
+  regenerate() {
+    fetch('http://127.0.0.1:8000/api/players/regenerate')
+    window.location.reload()
+  }, 
   toggleDirection() {
     this.ascending = !this.ascending
   }
@@ -75,10 +59,10 @@ computed: {
   sortedList() {
     let list;
     if (this.sortBy === 'score') {
-      list = [...this.players].sort((a, b) => a.score - b.score);
+      list = [...this.players].sort((a, b) => b.score - a.score);
     } 
     else {
-      list = [...this.players].sort((a, b) => b[this.sortBy].localeCompare(a[this.sortBy]));
+      list = [...this.players].sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
     }
     return this.ascending ? list : list.reverse();
   }

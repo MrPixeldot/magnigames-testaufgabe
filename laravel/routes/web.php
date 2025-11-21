@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Player;
+use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\PlayerController;
 
-Route::get('/players', function () {
-    return Player::all();
-});
+Route::resource('/players', PlayerController::class,);
+Route::get('/regenerate', [PlayerController::class, 'regenerate']);
 

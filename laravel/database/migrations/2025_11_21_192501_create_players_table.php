@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('players', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('city');
-            $table->string('wappen');
+            $table->string('name',);
+            $table->string('city',);
+            $table->string('wappen',);
             $table->integer('score');
         });
     }
